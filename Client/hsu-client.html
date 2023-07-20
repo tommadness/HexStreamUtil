@@ -1,0 +1,44 @@
+<script>
+    let hstws;
+    function hstconnect() {
+        hstws = new WebSocket("ws://localhost:8069");
+        hstws.onmessage = (event) => {
+            let data = JSON.parse(event.data);
+            console.log(JSON.parse(event.data));
+            switch (data.type) {
+                case "video":
+                    videoOverlay(data.data);
+
+            }
+        }
+        hstws.onclose = (event) => {
+            setTimeout(hstconnect(), 5000);
+        }
+    }
+    hstconnect();
+
+
+    function videoOverlay(data) {
+        const container = document.body;
+        const video = document.createElement("video");
+        video.src = data.src;
+        video.onended = function () { video.remove(); }
+        video.onerror = function () { video.remove(); }
+        video.style.position = "absolute";
+        video.style.left = data.randomX ? Math.random() * 75 + "%" : data.positionX;
+        video.style.top = data.randomY ? Math.random() * 75 + "%" : data.positionY;
+        if (data.width !== "") {
+            video.width = data.width;
+        }
+        if (data.height !== "") {
+            video.height = data.height;
+        }
+
+        video.volume = data.volume;
+
+        video.autoplay;
+
+        container.append(video);
+        video.play();
+    }
+</script>
