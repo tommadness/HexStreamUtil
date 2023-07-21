@@ -264,13 +264,13 @@ hstconnect();
 
 [insert_hook]
     case 'HST - Video': {
-        hstVideo(SAMMIJSON);
+        hstSend(SAMMIJSON, "video");
     } break
 
 [insert_script]
-    function hstVideo(jsonObj){
+    function hstSend(jsonObj, type){
         let message = {
-            type: "video",
+            type: type,
             data: jsonObj
         }
         hstws.send(JSON.stringify(message));
