@@ -14,10 +14,16 @@
             switch (data.type) {
                 case "video":
                     videoOverlay(data.data);
+                    break
                 case "image":
                     imageOverlay(data.data);
+                    break
                 case "text":
                     textOverlay(data.data);
+                    break
+                case "audio":
+                    audioOverlay(data.data);
+                    break
             }
         }
         hstws.onclose = (event) => {
@@ -88,6 +94,17 @@
         container.append(div);
         setTimeout(function () { div.remove(); }, data.duration * 1000);
 
+    }
+
+    function audioOverlay(data) {
+        const container = document.body;
+        const audio = document.createElement("audio");
+        audio.src = data.src;
+        audio.volume = data.volume;
+
+        audio.autoplay = true;
+        container.append(audio);
+        audio.play();
     }
 
     function positionElement(element, data) {

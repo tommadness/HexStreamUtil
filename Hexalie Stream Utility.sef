@@ -52,6 +52,10 @@ hstconnect();
         duration: ['Duration (seconds)', 14, "5"],
         css: ['Custom CSS', 0, ""]
     });
+    SAMMI.extCommand("HST - Audio", 3355443, 52, {
+        src: ['Audio File', 22, 'media/'],
+        volume: ['Volume', 11, 1]
+    });
 
 [insert_hook]
     case 'HST - Video': {
@@ -63,6 +67,9 @@ hstconnect();
     case 'HST - Text': {
         hstSend(SAMMIJSON, "text");
     } break
+    case 'HST - Audio': {
+        hstSend(SAMMIJSON, "audio");
+    }
 
 [insert_script]
     function hstSend(jsonObj, type){
