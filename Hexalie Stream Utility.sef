@@ -238,7 +238,7 @@ let hstws;
 function hstconnect() {
     hstws = new WebSocket("ws://localhost:8069");
     hstws.onopen = (event) => {
-        SAMMI.alert("Connected");
+        SAMMI.alert("[HexalieStreamUtility] Connected to Websocket Server");
     }
     hstws.onmessage = (event) => {
         console.log(JSON.parse(event.data));
@@ -261,10 +261,35 @@ hstconnect();
         height: ['Height', 14, ""],
         volume: ['Volume', 11, 1]
     });
+    SAMMI.extCommand('HST - Image', 3355443, 52, {
+        src: ['Image File', 22, 'media/'],
+        positionX: ['Position X', 14 , "50%"],
+        randomX: ['Random X Position', 2, true],
+        positionY: ['Position Y', 14 , "50%"],
+        randomY: ['Random Y Position', 2, true],
+        width: ['Width', 14, "600"],
+        height: ['Height', 14, ""],
+        duration: ['Duration (seconds)', 14, "5"]
+    });
+    SAMMI.extCommand('HST - Text', 3355443, 52, {
+        text: ['Text', 14, ''],
+        positionX: ['Position X', 14 , "50%"],
+        randomX: ['Random X Position', 2, true],
+        positionY: ['Position Y', 14 , "50%"],
+        randomY: ['Random Y Position', 2, true],
+        duration: ['Duration (seconds)', 14, "5"],
+        css: ['Custom CSS', 0, ""]
+    });
 
 [insert_hook]
     case 'HST - Video': {
         hstSend(SAMMIJSON, "video");
+    } break
+    case 'HST - Image': {
+        hstSend(SAMMIJSON, "image");
+    } break
+    case 'HST - Text': {
+        hstSend(SAMMIJSON, "text");
     } break
 
 [insert_script]
@@ -274,59 +299,5 @@ hstconnect();
             data: jsonObj
         }
         hstws.send(JSON.stringify(message));
-    }
-
-    function imageOverlay(src, positionX, randomX, positionY, randomY, width, height, duration) {
-        const container = document.body;
-        const img = document.createElement("img");
-        img.src = src;
-        img.onload = function() {setTimeout(function(){img.remove();},duration*1000);}
-        img.style.position = "absolute";
-        img.style.left = randomX ? Math.random() * 75 + "%" : positionX;
-        img.style.top = randomY ? Math.random() * 75 + "%" : positionY;
-        if (width !== "") {
-            img.width = width;
-        }
-        if (height !== "") {
-            img.height = height;
-        }
-
-        container.append(img);
-    }
-
-    function textOverlay(text, positionX, randomX, positionY, randomY, wordArt, css, duration) {
-        const container = document.body;
-        const div = document.createElement("div");
-        const span = document.createElement("span");
-        span.classList.add("text");
-
-        switch (wordArt){
-            case "Rainbow":
-            case "Blues":
-            case "Superhero":
-            case "Radial":
-            case "Tilt":
-            case "Purple":
-            case "Horizon":
-            case "Italic Outline":
-            case "Slate":
-                var className = wordArt.replace(/\s+/g, '-').toLowerCase();
-                div.classList.add("wordart",className);
-                break
-            default:
-                break
-        }
-        span.innerText = text;
-        span.style = css;
-        div.style.position = "absolute";
-        div.style.left = randomX ? Math.random() * 75 + "%" : positionX;
-        div.style.top = randomY ? Math.random() * 75 + "%" : positionY;
-
-
-
-        div.append(span);
-        container.append(div);
-        setTimeout(function(){div.remove();},duration*1000);
-
     }
 [insert_over]

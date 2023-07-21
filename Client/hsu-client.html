@@ -1,3 +1,5 @@
+<body></body>
+
 <script>
     let hstws;
     function hstconnect() {
@@ -8,7 +10,10 @@
             switch (data.type) {
                 case "video":
                     videoOverlay(data.data);
-
+                case "image":
+                    imageOverlay(data.data);
+                case "text":
+                    textOverlay(data.data);
             }
         }
         hstws.onclose = (event) => {
@@ -24,15 +29,9 @@
         video.src = data.src;
         video.onended = function () { video.remove(); }
         video.onerror = function () { video.remove(); }
-        video.style.position = "absolute";
-        video.style.left = data.randomX ? Math.random() * 75 + "%" : data.positionX;
-        video.style.top = data.randomY ? Math.random() * 75 + "%" : data.positionY;
-        if (data.width !== "") {
-            video.width = data.width;
-        }
-        if (data.height !== "") {
-            video.height = data.height;
-        }
+
+        positionElement(video, data);
+        scaleElement(video, data);
 
         video.volume = data.volume;
 
@@ -40,5 +39,65 @@
 
         container.append(video);
         video.play();
+    }
+
+    function imageOverlay(data) {
+        const container = document.body;
+        const img = document.createElement("img");
+        img.src = data.src;
+        img.onerror = function () { img.remove(); }
+        positionElement(img, data);
+        scaleElement(img, data);
+        setTimeout(function () { img.remove(); }(), data.duration * 1000);
+        container.append(img);
+    }
+
+    function textOverlay(data) {
+        const container = document.body;
+        const div = document.createElement("div");
+        const span = document.createElement("span");
+        span.classList.add("text");
+
+        /*         switch (wordArt) {
+                    case "Rainbow":
+                    case "Blues":
+                    case "Superhero":
+                    case "Radial":
+                    case "Tilt":
+                    case "Purple":
+                    case "Horizon":
+                    case "Italic Outline":
+                    case "Slate":
+                        var className = wordArt.replace(/\s+/g, '-').toLowerCase();
+                        div.classList.add("wordart", className);
+                        break
+                    default:
+                        break
+                } */
+        span.innerText = data.text;
+        span.style = data.css;
+        positionElement(div, data);
+
+
+
+        div.append(span);
+        container.append(div);
+        setTimeout(function () { div.remove(); }, data.duration * 1000);
+
+    }
+
+    function positionElement(element, data) {
+        element.style.position = "absolute";
+        element.style.left = data.randomX ? Math.random() * 75 + "%" : data.positionX;
+        element.style.top = data.randomY ? Math.random() * 75 + "%" : data.positionY;
+    }
+
+    function scaleElement(element, data) {
+        if (data.width !== "") {
+            element.width = data.width;
+        }
+        if (data.height !== "") {
+            element.height = data.height;
+        }
     }
 </script>
