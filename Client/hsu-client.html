@@ -58,8 +58,8 @@
         img.onerror = function () { img.remove(); }
         positionElement(img, data);
         scaleElement(img, data);
-        setTimeout(function () { img.remove(); }(), data.duration * 1000);
         container.append(img);
+        setTimeout(function () { img.remove(); }, data.duration * 1000);
     }
 
     function textOverlay(data) {
