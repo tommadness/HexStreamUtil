@@ -54,11 +54,11 @@
     function imageOverlay(data) {
         const container = document.body;
         const img = document.createElement("img");
-        img.src = data.src;
         img.onerror = function () { img.remove(); }
         positionElement(img, data);
         scaleElement(img, data);
         container.append(img);
+        img.src = data.src;
         setTimeout(function () { img.remove(); }, data.duration * 1000);
     }
 
