@@ -54,6 +54,7 @@
     function imageOverlay(data) {
         const container = document.body;
         const img = document.createElement("img");
+        img.src = ("");
         img.onerror = function () { img.remove(); }
         positionElement(img, data);
         scaleElement(img, data);
