@@ -50,6 +50,7 @@ hstconnect();
         positionY: ['Position Y', 14 , "50%"],
         randomY: ['Random Y Position', 2, true],
         duration: ['Duration (seconds)', 14, "5"],
+        class: ['HTML Class', 14, ""],
         css: ['Custom CSS', 0, ""]
     });
     SAMMI.extCommand("HST - Audio", 3355443, 52, {
