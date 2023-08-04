@@ -67,7 +67,7 @@
     function textOverlay(data) {
         const container = document.body;
         const div = document.createElement("div");
-        div.classList.add(data.class);
+        data.class !== "" ? div.classList.add(data.class) : {}
         div.style = "width: 100%; height: 100%";
         const span = document.createElement("span");
         span.classList.add("text");
