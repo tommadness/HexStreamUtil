@@ -71,7 +71,6 @@
         div.style = "width: 100%; height: 100%";
         const span = document.createElement("span");
         span.classList.add("text");
-        span.style = "position: relative;"
 
         /*         switch (wordArt) {
                     case "Rainbow":
@@ -90,8 +89,9 @@
                         break
                 } */
         span.innerText = data.text;
-        span.style += data.css;
+        span.style.cssText += data.css;
         positionElement(span, data);
+        span.style.position = "relative";
 
 
 
